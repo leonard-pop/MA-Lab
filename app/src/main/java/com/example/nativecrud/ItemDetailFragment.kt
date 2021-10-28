@@ -1,6 +1,7 @@
 package com.example.nativecrud
 
 import android.os.Bundle
+import android.text.SpannableStringBuilder
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -35,7 +36,12 @@ class ItemDetailFragment : Fragment() {
 
     // Show the dummy content as text in a TextView.
     item?.let {
-      rootView.item_detail.text = it.category
+      rootView.root.name.setText(it.name)
+      rootView.root.category.setText(it.category)
+      rootView.root.expiry_date.setText(it.expiryDate)
+      rootView.root.notification_interval.setText(it.notificationInterval)
+      rootView.root.notification_before_count.setText(it.notifyBeforeCount.toString())
+      rootView.root.notification_before_scale.setText(it.notifyBeforeScale)
     }
     return rootView
   }

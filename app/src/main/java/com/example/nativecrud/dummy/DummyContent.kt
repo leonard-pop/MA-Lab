@@ -18,7 +18,7 @@ object DummyContent {
       "Daily", 15, "Days"))
   }
 
-  private fun addItem(item: FoodItem) {
+  fun addItem(item: FoodItem) {
     ITEMS.add(item)
     ITEM_MAP[item.id] = item
   }

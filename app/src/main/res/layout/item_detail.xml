@@ -29,6 +29,7 @@
         android:padding="16dp"
         android:textIsSelectable="true"
         android:hint="Expiry date"
+        android:inputType="date"
         tools:context=".ItemDetailFragment"/>
     <EditText android:id="@+id/notification_interval"
         style="?android:attr/textAppearanceLarge"
@@ -37,7 +38,6 @@
         android:padding="16dp"
         android:textIsSelectable="true"
         android:hint="Notification interval"
-        android:inputType="date"
         tools:context=".ItemDetailFragment"/>
     <EditText android:id="@+id/notification_before_count"
         style="?android:attr/textAppearanceLarge"

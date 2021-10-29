@@ -24,8 +24,10 @@ class ItemListActivity : AppCompatActivity() {
         toolbar.title = title
 
         fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show()
+            val intent = Intent(this, ItemDetailActivity::class.java).apply {
+                putExtra(ItemDetailFragment.ARG_ACTION, ItemDetailFragment.Action.ADD.toString())
+            }
+            this.startActivity(intent)
         }
 
         setupRecyclerView(item_list)
@@ -43,6 +45,7 @@ class ItemListActivity : AppCompatActivity() {
             val item = v.tag as DummyContent.FoodItem
             val intent = Intent(v.context, ItemDetailActivity::class.java).apply {
                 putExtra(ItemDetailFragment.ARG_ITEM_ID, item.id)
+                putExtra(ItemDetailFragment.ARG_ACTION, ItemDetailFragment.Action.VIEW.toString())
             }
             v.context.startActivity(intent)
         }

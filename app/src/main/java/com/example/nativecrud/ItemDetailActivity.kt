@@ -4,6 +4,7 @@ import android.app.AlertDialog
 import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NavUtils
@@ -13,23 +14,38 @@ import kotlinx.android.synthetic.main.activity_item_detail.*
 class ItemDetailActivity : AppCompatActivity() {
     private var id: Int = 0;
     private var fragment: ItemDetailFragment? = null;
+    private var action: ItemDetailFragment.Action? = null;
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_item_detail)
         setSupportActionBar(detail_toolbar)
+        Log.d("tag", intent.getStringExtra(ItemDetailFragment.ARG_ACTION).toString())
+        action = ItemDetailFragment.Action.valueOf(intent.getStringExtra(ItemDetailFragment.ARG_ACTION)
+            .toString())
 
-        fab.setOnClickListener { view ->
-            fragment?.update()
-            var dialog = AlertDialog.Builder(this)
-                .setTitle("Update")
-                .setMessage("Update complete")
-                .setPositiveButton("Ok", DialogInterface.OnClickListener {
-                    dialog, id -> finish()
-                })
-                .create().show()
-            Snackbar.make(view, "Updated", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show()
+        if(action == ItemDetailFragment.Action.VIEW) {
+            fab.setOnClickListener { view ->
+                fragment?.update()
+                var dialog = AlertDialog.Builder(this)
+                    .setTitle("Success")
+                    .setMessage("Item updated")
+                    .setPositiveButton("Ok", DialogInterface.OnClickListener { dialog, id ->
+                        finish()
+                    })
+                    .create().show()
+            }
+        } else if(action == ItemDetailFragment.Action.ADD) {
+            fab.setOnClickListener { view ->
+                fragment?.create()
+                var dialog = AlertDialog.Builder(this)
+                    .setTitle("Success")
+                    .setMessage("Item added")
+                    .setPositiveButton("Ok", DialogInterface.OnClickListener { dialog, id ->
+                        finish()
+                    })
+                    .create().show()
+            }
         }
 
         // Show the Up button in the action bar.
@@ -45,6 +61,10 @@ class ItemDetailActivity : AppCompatActivity() {
                     putInt(
                         ItemDetailFragment.ARG_ITEM_ID,
                         intent.getIntExtra(ItemDetailFragment.ARG_ITEM_ID, -1)
+                    )
+                    putString(
+                        ItemDetailFragment.ARG_ACTION,
+                        intent.getStringExtra(ItemDetailFragment.ARG_ACTION)
                     )
                 }
             }

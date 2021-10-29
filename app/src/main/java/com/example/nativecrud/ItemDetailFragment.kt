@@ -19,13 +19,19 @@ class ItemDetailFragment : Fragment() {
         super.onCreate(savedInstanceState)
 
         arguments?.let {
-            if (it.containsKey(ARG_ITEM_ID)) {
-                // Load the dummy content specified by the fragment
-                // arguments. In a real-world scenario, use a Loader
-                // to load content from a content provider.
-                item = DummyContent.ITEM_MAP[it.getInt(ARG_ITEM_ID)]
-                item?.name?.let { it1 -> Log.d("tag", it1) }
-                activity?.toolbar_layout?.title = item?.name
+            if (it.containsKey((ARG_ACTION))) {
+                if (Action.valueOf(it.getString(ARG_ACTION).toString()) == Action.VIEW) {
+                    if (it.containsKey(ARG_ITEM_ID)) {
+                        // Load the dummy content specified by the fragment
+                        // arguments. In a real-world scenario, use a Loader
+                        // to load content from a content provider.
+                        item = DummyContent.ITEM_MAP[it.getInt(ARG_ITEM_ID)]
+                        item?.name?.let { it1 -> Log.d("tag", it1) }
+                        activity?.toolbar_layout?.title = item?.name
+                    }
+                } else if (Action.valueOf(it.getString(ARG_ACTION).toString()) == Action.ADD) {
+                    activity?.toolbar_layout?.title = "Add"
+                }
             }
         }
     }
@@ -50,15 +56,38 @@ class ItemDetailFragment : Fragment() {
 
     companion object {
         const val ARG_ITEM_ID = "item_id"
+        const val ARG_ACTION = "action"
+    }
+
+    enum class Action {
+        VIEW,
+        ADD,
+        UPDATE
     }
 
     fun update() {
-        Log.d("tag", "Updating: " + this.item?.id.toString())
         DummyContent.ITEM_MAP[this.item?.id]?.name = view?.root?.name?.text.toString()
         DummyContent.ITEM_MAP[this.item?.id]?.category = view?.root?.category?.text.toString()
         DummyContent.ITEM_MAP[this.item?.id]?.expiryDate = view?.root?.expiry_date?.text.toString()
-        DummyContent.ITEM_MAP[this.item?.id]?.notificationInterval = view?.root?.notification_interval?.text.toString()
-        DummyContent.ITEM_MAP[this.item?.id]?.notifyBeforeCount = view?.root?.notification_before_count?.text.toString().toInt()
-        DummyContent.ITEM_MAP[this.item?.id]?.notifyBeforeScale = view?.root?.notification_before_scale?.text.toString()
+        DummyContent.ITEM_MAP[this.item?.id]?.notificationInterval =
+            view?.root?.notification_interval?.text.toString()
+        DummyContent.ITEM_MAP[this.item?.id]?.notifyBeforeCount =
+            view?.root?.notification_before_count?.text.toString().toInt()
+        DummyContent.ITEM_MAP[this.item?.id]?.notifyBeforeScale =
+            view?.root?.notification_before_scale?.text.toString()
+    }
+
+    fun create() {
+        DummyContent.addItem(
+            DummyContent.FoodItem(
+                DummyContent.ITEMS.size,
+                view?.root?.name?.text.toString(),
+                view?.root?.category?.text.toString(),
+                view?.root?.expiry_date?.text.toString(),
+                view?.root?.notification_interval?.text.toString(),
+                view?.root?.notification_before_count?.text.toString().toInt(),
+                view?.root?.notification_before_scale?.text.toString()
+            )
+        )
     }
 }

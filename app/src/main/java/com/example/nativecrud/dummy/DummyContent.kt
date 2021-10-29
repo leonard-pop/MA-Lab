@@ -23,6 +23,11 @@ object DummyContent {
     ITEM_MAP[item.id] = item
   }
 
+  fun deleteItem(item: FoodItem) {
+    ITEMS.remove(item)
+    ITEM_MAP.remove(item.id)
+  }
+
   /*
   private fun createDummyItem(position: Int): DummyItem {
     return DummyItem(position.toString(), "Item $position", makeDetails(position))

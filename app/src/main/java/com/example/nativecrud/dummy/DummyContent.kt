@@ -14,7 +14,7 @@ object DummyContent {
   init {
     addItem(FoodItem(1, "White Bread", "Bread", "30/10/21",
       "Daily", 10, "Days"))
-    addItem(FoodItem(1, "Multigrain Bread", "Bread", "20/10/21",
+    addItem(FoodItem(2, "Multigrain Bread", "Bread", "20/10/21",
       "Daily", 15, "Days"))
   }
 
@@ -38,9 +38,9 @@ object DummyContent {
   }
    */
 
-  data class FoodItem(val id: Int, val name: String, val category: String, val expiryDate: String,
-                      val notificationInterval: String, val notifyBeforeCount: Int,
-                      val notifyBeforeScale: String)
+  data class FoodItem(val id: Int, var name: String, var category: String, var expiryDate: String,
+                      var notificationInterval: String, var notifyBeforeCount: Int,
+                      var notifyBeforeScale: String)
 
   data class DummyItem(val id: String, val content: String, val details: String) {
     override fun toString(): String = content
